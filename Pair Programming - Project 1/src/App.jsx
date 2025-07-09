@@ -13,7 +13,7 @@ const App = () => {
     <ThemeProvider>
       <FavoritesProvider>
         <Router>
-          <div>
+          <div className='bg-gray-50 dark:bg-slate-900'>
             <Header />
             <Routes>
                <Route path="/" element={<Home searchQuery={searchQuery} />} />
