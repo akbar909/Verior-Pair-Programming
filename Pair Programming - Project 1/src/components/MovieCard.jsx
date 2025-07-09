@@ -77,10 +77,6 @@ const MovieCard = ({ movie, showActions = true }) => {
           <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400  text-sm md:text-base">
             {movie.title}
           </h3>
-          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-            <Calendar className="h-3 w-3 mr-1" />
-            <span>{new Date(movie.release_date).getFullYear()}</span>
-          </div>
           <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 line-clamp-3 flex-1">
             {movie.overview}
           </p>

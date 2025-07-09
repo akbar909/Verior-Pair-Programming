@@ -12,12 +12,9 @@ const Home = ({ searchQuery }) => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filters, setFilters] = useState({
-    genre: '',
-    year: '',
-    sortBy: 'popularity.desc',
-    minRating: 0,
-  });
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [filteredMovies, setFilteredMovies] = useState([]);
 
   const debouncedSearchQuery = Debounce(searchQuery, 300);
 
@@ -67,6 +64,37 @@ const Home = ({ searchQuery }) => {
     fetchSearchResults();
   }, [debouncedSearchQuery]);
 
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const response = await tmdbApis.getGenres();
+        setGenres(response.genres);
+      } catch (error) {
+        console.error('Error fetching genres:', error);
+      }
+    };
+    fetchGenres();
+  }, []);
+
+  useEffect(() => {
+    const fetchFilteredMovies = async () => {
+      if (!selectedGenre) {
+        setFilteredMovies([]);
+        return;
+      }
+      setLoading(true);
+      try {
+        const response = await tmdbApis.discoverMovies({ genre: selectedGenre });
+        setFilteredMovies(response.results.slice(0, 8));
+      } catch (error) {
+        console.error('Error filtering movies:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFilteredMovies();
+  }, [selectedGenre]);
+
   const loadMoreSearchResults = async () => {
     if (page >= totalPages || !debouncedSearchQuery) return;
 
@@ -110,42 +138,64 @@ const Home = ({ searchQuery }) => {
   }
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-slate-900">
+      <div className="mb-8 flex flex-col sm:flex-row items-center gap-4">
+        <label htmlFor="genre-filter" className="font-medium text-xl text-black dark:text-white">Filter by Genre:</label>
+        <select
+          id="genre-filter"
+          className="px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
+          value={selectedGenre}
+          onChange={e => setSelectedGenre(e.target.value)}
+        >
+          <option value="">All</option>
+          {genres.map(genre => (
+            <option key={genre.id} value={genre.id}>{genre.name}</option>
+          ))}
+        </select>
+      </div>
       {loading ? (
         <div className="flex items-center h-screen justify-center py-12">
           <h1 className="text-gray-500 dark:text-gray-400 text-lg">Loading...</h1>
         </div>
       ) : (
         <div className="space-y-12">
-        
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                Trending Movies
-              </h2>
-           
-            </div>
-            <MovieGrid movies={trendingMovies} />
-          </section>
-
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                Popular Movies
-              </h2>
-             
-            </div>
-            <MovieGrid movies={popularMovies} />
-          </section>
-
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                Latest Movies
-              </h2>
-            
-            </div>
-            <MovieGrid movies={latestMovies} />
-          </section>
+          {/* Show filtered movies if a genre is selected, otherwise show trending/popular/latest */}
+          {selectedGenre ? (
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                  Movies by Genre
+                </h2>
+              </div>
+              <MovieGrid movies={filteredMovies} />
+            </section>
+          ) : (
+            <>
+              <section>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    Trending Movies
+                  </h2>
+                </div>
+                <MovieGrid movies={trendingMovies} />
+              </section>
+              <section>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    Popular Movies
+                  </h2>
+                </div>
+                <MovieGrid movies={popularMovies} />
+              </section>
+              <section>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    Latest Movies
+                  </h2>
+                </div>
+                <MovieGrid movies={latestMovies} />
+              </section>
+            </>
+          )}
         </div>
       )}
     </div>
