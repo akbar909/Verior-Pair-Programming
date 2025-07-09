@@ -1,11 +1,4 @@
-import {
-  ArrowLeft,
-  Bookmark,
-  Calendar,
-  Clock,
-  Heart,
-  Star,
-} from 'lucide-react';
+import {ArrowLeft, Bookmark, Calendar, Clock, Heart, Star} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getImageUrl, tmdbApis } from '../apis/tmdb';
@@ -15,8 +8,6 @@ const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [videos, setVideos] = useState([]);
-  const [credits, setCredits] = useState(null);
-  const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -104,7 +95,6 @@ const MovieDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
-      {/* Header */}
       <div className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-6">
           <Link
@@ -136,11 +126,8 @@ const MovieDetail = () => {
           </div>
         </div>
       </div>
-
-      {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Poster Section */}
           <div className="flex justify-center mb-12">
             <div className="relative">
               {posterUrl ? (
@@ -158,8 +145,6 @@ const MovieDetail = () => {
               )}
             </div>
           </div>
-
-          {/* Movie Info */}
           <div className="text-center mb-12">
             {movie.tagline && (
               <p className="text-lg text-gray-600 dark:text-gray-400 italic mb-6">
@@ -183,12 +168,10 @@ const MovieDetail = () => {
                 {movie.overview}
               </p>
             </div>
-
-            {/* Action Buttons */}
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <button
                 onClick={handleFavoriteClick}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium ${
                   isFavorite(movie.id)
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300'
@@ -200,7 +183,7 @@ const MovieDetail = () => {
               
               <button
                 onClick={handleWatchlistClick}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium  ${
                   isInWatchlist(movie.id)
                     ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300'
@@ -210,7 +193,7 @@ const MovieDetail = () => {
                 <span>{isInWatchlist(movie.id) ? 'Remove from Watchlist' : 'Add to Watchlist'}</span>
               </button>
 
-           
+          
             </div>
           </div>
         </div>

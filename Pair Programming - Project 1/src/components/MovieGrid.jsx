@@ -4,7 +4,7 @@ import MovieCard from './MovieCard';
 const MovieGrid = ({ movies, loading, title, showActions = true }) => {
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center h-screen justify-center py-12">
         <h1 className="text-gray-500 dark:text-gray-400 text-lg">Loading...</h1>
       </div>
     );

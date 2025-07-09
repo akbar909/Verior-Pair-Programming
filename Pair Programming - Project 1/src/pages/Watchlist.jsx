@@ -1,5 +1,3 @@
-import React from 'react';
-import { Clock } from 'lucide-react';
 import { useFavorites } from '../context/Favorites&Wishlist';
 import MovieGrid from '../components/MovieGrid';
 

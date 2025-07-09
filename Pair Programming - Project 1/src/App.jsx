@@ -14,9 +14,9 @@ const App = () => {
       <FavoritesProvider>
         <Router>
           <div className='bg-gray-50 dark:bg-slate-900'>
-            <Header />
+            <Header onSearch={setSearchQuery} searchQuery={searchQuery}/>
             <Routes>
-               <Route path="/" element={<Home searchQuery={searchQuery} />} />
+              <Route path="/" element={<Home searchQuery={searchQuery} />} />
               <Route path="/movie/:id" element={<MovieDetail />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/watchlist" element={<Watchlist />} />

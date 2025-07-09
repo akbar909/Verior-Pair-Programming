@@ -99,9 +99,8 @@ const Home = ({ searchQuery }) => {
             <button
               onClick={loadMoreSearchResults}
               disabled={searchLoading}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg font-medium  flex items-center space-x-2"
             >
-              {searchLoading ? <h1>loading...</h1> : null}
               <span>{searchLoading ? 'Loading...' : 'Load More'}</span>
             </button>
           </div>
@@ -109,21 +108,15 @@ const Home = ({ searchQuery }) => {
       </div>
     );
   }
-
-  // Show main sections when not searching
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-slate-900">
-
-
-      {/* <FilterBar filters={filters} onFilterChange={handleFilterChange} /> */}
-
       {loading ? (
         <div className="flex items-center h-screen justify-center py-12">
           <h1 className="text-gray-500 dark:text-gray-400 text-lg">Loading...</h1>
         </div>
       ) : (
         <div className="space-y-12">
-          {/* Trending Movies Section */}
+        
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
@@ -134,7 +127,6 @@ const Home = ({ searchQuery }) => {
             <MovieGrid movies={trendingMovies} />
           </section>
 
-          {/* Popular Movies Section */}
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
@@ -145,7 +137,6 @@ const Home = ({ searchQuery }) => {
             <MovieGrid movies={popularMovies} />
           </section>
 
-          {/* Latest Movies Section */}
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">

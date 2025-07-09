@@ -1,5 +1,3 @@
-import React from 'react';
-import { Heart } from 'lucide-react';
 import { useFavorites } from '../context/Favorites&Wishlist';
 import MovieGrid from '../components/MovieGrid';
 
@@ -19,7 +17,7 @@ const Favorites = () => {
       </div>
 
       {favorites.length === 0 ? (
-          <h2 className="text-center py-12 text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-center  py-12 text-xl font-semibold text-gray-900 dark:text-white mb-2">
             No favorites yet
           </h2>
       ) : (
