@@ -36,9 +36,6 @@ export const tmdbApis = {
     getMovieDetails: (movieId) => {
         return tmdbApi.get(`/movie/${movieId}`).then(res => res.data);
     },
-    getSimilarMovies: (movieId) => {
-        return tmdbApi.get(`/movie/${movieId}/similar`).then(res => res.data);
-    },
     getRecommendations: (movieId) => {
         return tmdbApi.get(`/movie/${movieId}/recommendations`).then(res => res.data);
     },
@@ -52,12 +49,6 @@ export const tmdbApis = {
         }
         if (filters.genre) {
             params.with_genres = filters.genre;
-        }
-        if (filters.year) {
-            params.year = filters.year;
-        }
-        if (filters.minRating) {
-            params['vote_average.gte'] = filters.minRating;
         }
         return tmdbApi.get('/discover/movie', { params }).then(res => res.data);
     },
